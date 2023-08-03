@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 import "hardhat/console.sol";
 
-contract NFTMarketplace is ERC721URIStorage {
+contract NFTBazar is ERC721URIStorage {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIds;
@@ -43,7 +43,7 @@ contract NFTMarketplace is ERC721URIStorage {
         _;
     }
 
-    constructor() ERC721("NFT Metavarse Token", "MYNFT") {
+    constructor() ERC721("NFTBazar", "NBNFT") {
         owner == payable(msg.sender);
     }
 
@@ -56,8 +56,6 @@ contract NFTMarketplace is ERC721URIStorage {
     function getListingPrice() public view returns (uint256) {
         return listingPrice;
     }
-
-    // Let create "CREATE NFT TOKEN FUNCTION"
 
     function createToken(
         string memory tokenURI,
@@ -78,9 +76,10 @@ contract NFTMarketplace is ERC721URIStorage {
     //CREATING MARKET ITEMS
 
     function createMarketItem(uint256 tokenId, uint256 price) private {
+        console.log("the value : ", msg.value);
         require(price > 0, "Price must be al lest 1");
         require(
-            msg.value == listingPrice,
+            msg.value >= listingPrice,
             "Pric must be equal to listing price"
         );
 
@@ -103,7 +102,6 @@ contract NFTMarketplace is ERC721URIStorage {
         );
     }
 
-    //FUNCTION FOR RESALE TOKEN
     function reSellToken(uint256 tokenId, uint256 price) public payable {
         require(
             idMarketItem[tokenId].owner == msg.sender,
