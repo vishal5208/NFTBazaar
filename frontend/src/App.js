@@ -1,5 +1,11 @@
+import { Wallet } from "./components/Wallet/Wallet";
+
 function App() {
-	return <div></div>;
+	return (
+		<div>
+			<Wallet />
+		</div>
+	);
 }
 
 export default App;
